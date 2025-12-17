@@ -2,15 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export default function SignIn() {
   return (
     <div className="w-full max-w-sm">
         <Card>
-          <CardHeader>
-            <CardTitle>Login to your account</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl">Acesse a sua conta</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account
+              Faça login para continuar usando a plataforma
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -27,12 +28,12 @@ export default function SignIn() {
                 </Field>
                 <Field>
                   <div className="flex items-center">
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <FieldLabel htmlFor="password">Senha</FieldLabel>
                     <a
                       href="#"
                       className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      Esqueceu sua senha
                     </a>
                   </div>
                   <Input id="password" type="password" required />
@@ -40,10 +41,10 @@ export default function SignIn() {
                 <Field>
                   <Button type="submit">Login</Button>
                   <Button variant="outline" type="button">
-                    Login with Google
+                    Entrar com o Google
                   </Button>
                   <FieldDescription className="text-center">
-                    Don&apos;t have an account? <a href="#">Sign up</a>
+                    Não tem conta? <Link href="/sign-up">Cadastre-se</Link> !
                   </FieldDescription>
                 </Field>
               </FieldGroup>
