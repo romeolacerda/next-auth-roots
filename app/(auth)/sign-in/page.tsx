@@ -43,6 +43,7 @@ export default function SignIn() {
         <CardContent>
           <Form {...form}>
             <form className='grid gap-4' onSubmit={handleSubmit}>
+
               <FormField
                 control={form.control}
                 name="email"
@@ -54,7 +55,6 @@ export default function SignIn() {
                         id="email"
                         type="email"
                         placeholder="m@example.com"
-                        required
                         {...field}
                       />
                     </FormControl>
@@ -68,13 +68,20 @@ export default function SignIn() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <div className="flex items-center">
+                      <FieldLabel htmlFor="password">
+                        Senha
+                      </FieldLabel>
+                      <Link href={"#"} className="ml-auto inline-block text-sm underline">
+                        Esqueceu sua senha?
+                      </Link>
+                    </div>
+
                     <FormControl>
                       <Input
                         id="password"
                         type="password"
                         placeholder="********"
-                        required
                         {...field}
                       />
                     </FormControl>

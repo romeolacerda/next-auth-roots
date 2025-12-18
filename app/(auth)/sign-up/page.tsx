@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -12,10 +14,36 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import z from "zod"
+
+const schema = z.object({
+  name: z.string("Informe seu nome").min(1, "Nome invalido"),
+  email: z.email('Informe um email valido'),
+  password: z.string().min(8, "Informe uma senha")
+})
+
+type FormData = z.infer<typeof schema>
 
 export default function SignUp() {
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: ''
+    }
+  })
+
+  const handleSubmit = form.handleSubmit(formData => {
+    console.log(formData)
+  })
+
   return (
     <div className="w-full max-w-sm">
       <Card>
@@ -26,46 +54,74 @@ export default function SignUp() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="name">Nome Completo</FieldLabel>
-                <Input id="name" type="text" placeholder="John Doe" required />
-              </Field>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
+          <Form {...form}>
+            <form className='grid gap-4' onSubmit={handleSubmit}>
+              <FieldGroup>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel htmlFor="name">Nome</FieldLabel>
+                      <FormControl>
+                        <Input
+                          id="name"
+                          type="name"
+                          placeholder="cleitin"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </Field>
-              <Field>
-                <Field className="grid grid-cols-2 gap-4">
-                  <Field>
-                    <FieldLabel htmlFor="password">Senha</FieldLabel>
-                    <Input id="password" type="password" required />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="confirm-password">
-                      Confirmar senha
-                    </FieldLabel>
-                    <Input id="confirm-password" type="password" required />
-                  </Field>
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel htmlFor="email">Email</FieldLabel>
+                      <FormControl>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="m@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel htmlFor="password">Senha</FieldLabel>
+                      <FormControl>
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="********"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Field>
+                  <Button type="submit"  >Criar conta!</Button>
+                  <FieldDescription className="text-center">
+                    Ja está cadastrado?  <Link href="/sign-in">Login</Link>
+                  </FieldDescription>
                 </Field>
-                <FieldDescription>
-                  Deve ter pelo menos 8 caracteres
-                </FieldDescription>
-              </Field>
-              <Field>
-                <Button type="submit">Criar conta!</Button>
-                <FieldDescription className="text-center">
-                  Ja está cadastrado?  <Link href="/sign-in">Login</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
+              </FieldGroup>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
