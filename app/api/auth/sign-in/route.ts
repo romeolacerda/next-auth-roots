@@ -1,5 +1,5 @@
 import { env } from "@/config/env"
-import { prisma } from "@/prisma/prisma"
+import { prisma } from "@/lib/prisma"
 import { compare } from 'bcryptjs'
 import { sign } from "jsonwebtoken"
 import { NextRequest, NextResponse } from "next/server"

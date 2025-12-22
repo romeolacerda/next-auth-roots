@@ -2,23 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
 import { CircleUser } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function UserMenu() {
-    const router = useRouter()
-    
-  async function handleSignout(){
-    router.push('/sign-in')
+  const router = useRouter()
+
+  async function handleSignout() {
     await axios.post('/api/auth/sign-out')
+    router.push('/sign-in')
   }
 
   return (
