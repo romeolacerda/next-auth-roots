@@ -1,6 +1,8 @@
 import { env } from "@/config/env"
 import { JwtPayload, verify } from "jsonwebtoken"
 import { cookies } from "next/headers"
+import { prisma } from "./prisma"
+import { User } from "@/entities/User"
 
 async function getAccessToken() {
     const cookieStore = await cookies()
@@ -30,10 +32,26 @@ export async function verifyJwt(): Promise<null | string> {
 
 export async function isAuthenticated() {
     const isAuthenticated = await verifyJwt()
-    
+
     return !!isAuthenticated
 }
 
-export async function auth(): Promise<null | string> {
-    return verifyJwt()
+export async function auth(): Promise<null | User> {
+    const userId = await verifyJwt()
+
+    if (!userId) {
+        return null
+    }
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+
+        return user
+    } catch {
+        return null
+    }
 }
