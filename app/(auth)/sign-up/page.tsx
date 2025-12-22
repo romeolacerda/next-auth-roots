@@ -17,19 +17,25 @@ import {
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import z from "zod"
 
 const schema = z.object({
   name: z.string("Informe seu nome").min(1, "Nome invalido"),
   email: z.email('Informe um email valido'),
-  password: z.string().min(8, "Informe uma senha")
+  password: z.string().min(8, "Ao menos 8 caracteres")
 })
 
 type FormData = z.infer<typeof schema>
 
 export default function SignUp() {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -40,8 +46,19 @@ export default function SignUp() {
     }
   })
 
-  const handleSubmit = form.handleSubmit(formData => {
-    console.log(formData)
+  const handleSubmit = form.handleSubmit(async formData => {
+    try {
+      setIsLoading(true)
+      await axios.post('/api/auth/sign-up', formData)
+
+      router.push('/sign-in')
+      toast.success('Conta cadastrada com sucesso!', {
+        description: "Faça login agora mesmo!"
+      })
+    } catch {
+      toast.error('Erro ao criar sua conta')
+      setIsLoading(false)
+    }
   })
 
   return (
@@ -114,7 +131,13 @@ export default function SignUp() {
                   )}
                 />
                 <Field>
-                  <Button type="submit"  >Criar conta!</Button>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {!isLoading && 'Criar conta!'}
+                    {isLoading && 'Criando conta'}
+                  </Button>
                   <FieldDescription className="text-center">
                     Ja está cadastrado?  <Link href="/sign-in">Login</Link>
                   </FieldDescription>
