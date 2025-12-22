@@ -54,5 +54,19 @@ export async function POST(request: NextRequest) {
 
     )
 
-    return NextResponse.json({ accessToken }, { status: 200 })
+    const response = new NextResponse(null, {status: 204})
+
+    response.cookies.set(
+        'accessToken', 
+        accessToken,
+        {
+            httpOnly: true,
+            maxAge: 604800, // 7 days in seconds
+            path: '/', // this cookie will be availible through all app
+            sameSite: 'strict', // this one is to prevent cross origin
+            secure: true
+        }
+    )
+    
+    return response
 }

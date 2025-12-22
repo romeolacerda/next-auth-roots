@@ -3,8 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Package2, Search } from "lucide-react";
 import Link from "next/link";
+import { UserMenu } from "./UserMenu";
 
 export function AppBar() {
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -103,11 +105,12 @@ export function AppBar() {
             <Input
               type="search"
               placeholder="Search products..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              className="pl-8 sm:w-75 md:w-50 lg:w-75"
             />
           </div>
         </form>
 
+        <UserMenu />
       </div>
     </header>
   );
