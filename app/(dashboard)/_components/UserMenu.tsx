@@ -9,16 +9,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hook/useAuth";
 import axios from "axios";
 import { CircleUser } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function UserMenu() {
-  const router = useRouter()
+  const router = useRouter();
+  const { user } = useAuth();
 
   async function handleSignout() {
-    await axios.post('/api/auth/sign-out')
-    router.push('/sign-in')
+    await axios.post('/api/auth/sign-out');
+    router.push('/sign-in');
   }
 
   return (
@@ -31,7 +33,10 @@ export function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
         <DropdownMenuLabel>
-          My Account
+          <strong>{user.name}</strong>
+          <small className="text-muted-foreground block">
+            {user.email}
+          </small>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Settings</DropdownMenuItem>
