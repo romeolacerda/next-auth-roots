@@ -15,8 +15,6 @@ export default async function DashboardLayout({
     redirect('/sign-in')
   }
 
-  console.log(user)
-
   return (
     <AuthProvider user={user}>
       <div className="flex min-h-screen w-full flex-col">
