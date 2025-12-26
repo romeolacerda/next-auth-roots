@@ -1,16 +1,18 @@
 'use client'
 
-import axios from "axios"
-import { useEffect } from "react"
+import { useAuth } from "@/hook/useAuth"
 
 export default function Orders() {
-    useEffect(() => {
-        axios.get('/api/orders')
-    }, [])
-    
+    const { isSignedIn } = useAuth()
+
     return (
         <div>
-            <h1>Orders</h1>
+            {!isSignedIn && <div className="w-full h-10 bg-amber-200 grid place-items-center rounded-lg text-sm text-amber-950">
+                Faça login par visuazliar seus pedidos
+            </div>}
+
+            {isSignedIn &&
+                <div>Seus pedidos</div>}
         </div>
     )
 }

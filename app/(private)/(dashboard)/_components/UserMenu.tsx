@@ -13,6 +13,7 @@ import { useAuth } from "@/hook/useAuth";
 import axios from "axios";
 import { CircleUser } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { SignInButton } from "./SignInButton";
 
 export function UserMenu() {
   const router = useRouter();
@@ -20,7 +21,14 @@ export function UserMenu() {
 
   async function handleSignout() {
     await axios.post('/api/auth/sign-out');
-    router.push('/sign-in');
+    // router.push('/sign-in');
+    router.refresh()
+  }
+
+  if (!user) {
+    return (
+      <SignInButton />
+    )
   }
 
   return (

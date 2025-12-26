@@ -7,11 +7,13 @@ export default async function PublicPages({
   children: React.ReactNode;
 }>) {
   const isUserAuthenticated = Boolean(await auth())
-  
+
   if (isUserAuthenticated) {
     redirect('/')
   }
 
-  return {children}
-  
+  return (<div>
+    {children}
+  </div>)
+
 }
